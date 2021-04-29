@@ -26,13 +26,17 @@ const options: cors.CorsOptions = {
 // Access Control Headers
 app.use(function(req: Request,res: Response,next: NextFunction){
     res.header('Access-Control-Allow-Origin',process.env.ADMIN_FRONTEND)
-    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept")
+    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept, x-auth-token")
+    res.header("Access-Control-Allow-Methods", "GET,HEAD,OPTIONS,PUT,PATCH,POST,DELETE")
     next()
 })
 
 //Import Routes
 const superusersRoute = require('./routes/superusers')
 app.use('/superusers',superusersRoute)
+
+const dummyRoute = require('./routes/dummy')
+app.use('/dummy',dummyRoute)
 
 // use cors middleware
 app.use(cors(options))

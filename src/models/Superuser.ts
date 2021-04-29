@@ -1,3 +1,5 @@
+export {}
+
 const mongoose = require('mongoose')
 
 const SuperusersSchema = mongoose.Schema({

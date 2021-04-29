@@ -53,14 +53,19 @@ router.post('/login',async(req: Request,res: Response) => {
         return res.status(400).json({message: 'Please enter all fields'})
     }
     // Check existing superusers
-    const superuserFound = await Superuser.findOne({username})
-    if (!superuserFound) return res.status(404).json({message: 'Superuser does not exist'})
-    // Validate Password
-    const isMatch = bcrypt.compare(password, superuserFound.password)
-    if (!isMatch) return res.status(403).json({message: 'Password is incorrect'})
-    // Sign Token
-    const token = await jwt.sign({id: superuserFound.id},process.env.JWT_SECRET,{expiresIn: 3600},)
-    res.status(200).json({message: 'Authenticated',token,username: superuserFound.username})
+    try{
+        const superuserFound = await Superuser.findOne({username})
+        if (!superuserFound) return res.status(404).json({message: 'Superuser does not exist'})
+        // Validate Password
+        const isMatch = bcrypt.compare(password, superuserFound.password)
+        if (!isMatch) return res.status(403).json({message: 'Password is incorrect'})
+        // Sign Token
+        const token = await jwt.sign({id: superuserFound.id},process.env.JWT_SECRET,{expiresIn: 3600},)
+        res.status(200).json({message: 'Authenticated',token,username: superuserFound.username})
+    } catch (err){
+        res.status(400).json({message: 'Unable to check for existing users'})
+        console.log(err)
+    }
 })
 
 module.exports = router
