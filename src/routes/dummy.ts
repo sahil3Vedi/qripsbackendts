@@ -4,6 +4,16 @@ const Dummy = require('../models/Dummy')
 const Superuser = require('../models/Superuser')
 const auth = require('../middleware/auth')
 
+// Fetches Dummy Products Of a Given Gategory (Unprotected Route)
+router.get('/fetchAll/:cat', async(req: Request, res: Response) =>{
+    try{
+        const dummies = await Dummy.find({ tags: { $all: [req.params.cat] } })
+        res.status(200).json({message: dummies})
+    } catch(e) {
+        res.status(404).json({message: 'Unable to fetch products'})
+    }
+})
+
 // Fetches Dummy Products
 router.get('/fetchDummies', async(req: Request, res: Response) =>{
     try{

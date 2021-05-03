@@ -19,13 +19,17 @@ const options: cors.CorsOptions = {
   ],
   credentials: true,
   methods: 'GET,HEAD,OPTIONS,PUT,PATCH,POST,DELETE',
-  origin: process.env.ADMIN_FRONTEND,
+  origin: [process.env.ADMIN_FRONTEND!, process.env.FRONTEND!],
   preflightContinue: true,
 }
 
 // Access Control Headers
 app.use(function(req: Request,res: Response,next: NextFunction){
-    res.header('Access-Control-Allow-Origin',process.env.ADMIN_FRONTEND)
+    const allowedOrigins = [process.env.ADMIN_FRONTEND!, process.env.FRONTEND!];
+    const origin: string = req.headers.origin!;
+    if (allowedOrigins.includes(origin)) {
+        res.setHeader('Access-Control-Allow-Origin', origin);
+    }
     res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept, x-auth-token")
     res.header("Access-Control-Allow-Methods", "GET,HEAD,OPTIONS,PUT,PATCH,POST,DELETE")
     next()
