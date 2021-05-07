@@ -52,4 +52,4 @@ mongoose.connect(
     (err)=>{console.log(err)}
 )
 
-app.listen(process.env.PORT || 5000, () => console.log(process.env.ADMIN_FRONTEND))
+app.listen(process.env.PORT || 5000, () => console.log(process.env.DB_CONNECTION))
