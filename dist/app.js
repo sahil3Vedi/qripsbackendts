@@ -22,18 +22,25 @@ const options = {
     ],
     credentials: true,
     methods: 'GET,HEAD,OPTIONS,PUT,PATCH,POST,DELETE',
-    origin: process.env.ADMIN_FRONTEND,
+    origin: [process.env.ADMIN_FRONTEND, process.env.FRONTEND],
     preflightContinue: true,
 };
 // Access Control Headers
 app.use(function (req, res, next) {
-    res.header('Access-Control-Allow-Origin', process.env.ADMIN_FRONTEND);
-    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+    const allowedOrigins = [process.env.ADMIN_FRONTEND, process.env.FRONTEND];
+    const origin = req.headers.origin;
+    if (allowedOrigins.includes(origin)) {
+        res.setHeader('Access-Control-Allow-Origin', origin);
+    }
+    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept, x-auth-token");
+    res.header("Access-Control-Allow-Methods", "GET,HEAD,OPTIONS,PUT,PATCH,POST,DELETE");
     next();
 });
 //Import Routes
 const superusersRoute = require('./routes/superusers');
 app.use('/superusers', superusersRoute);
+const dummyRoute = require('./routes/dummy');
+app.use('/dummy', dummyRoute);
 // use cors middleware
 app.use(cors_1.default(options));
 // Connect to DB
