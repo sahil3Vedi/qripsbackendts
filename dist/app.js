@@ -45,4 +45,4 @@ app.use('/dummy', dummyRoute);
 app.use(cors_1.default(options));
 // Connect to DB
 mongoose_1.default.connect(process.env.DB_CONNECTION || "", { useNewUrlParser: true, useUnifiedTopology: true }, (err) => { console.log(err); });
-app.listen(process.env.PORT || 5000, () => console.log(process.env.DB_CONNECTION));
+app.listen(process.env.PORT || 5000, () => console.log("Listening..."));
