@@ -27,7 +27,7 @@ const options = {
 };
 // Access Control Headers
 app.use(function (req, res, next) {
-    const allowedOrigins = [process.env.ADMIN_FRONTEND, process.env.FRONTEND];
+    const allowedOrigins = [process.env.ADMIN_FRONTEND, process.env.FRONTEND, `http://localhost:9000`];
     const origin = req.headers.origin;
     if (allowedOrigins.includes(origin)) {
         res.setHeader('Access-Control-Allow-Origin', origin);
