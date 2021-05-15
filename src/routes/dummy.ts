@@ -51,4 +51,18 @@ router.delete('/deleteDummy/:id',auth, async(req: Request, res: Response) => {
     else product.remove().then(()=>res.status(200).json({ok: true, message: 'Dummy Product Deleted'}))
 })
 
+// Searches Dummy Products by Tags
+router.post('/search',async(req: Request, res: Response) => {
+    const searchVal = req.body.val
+    try{
+        if (searchVal) {
+            const dummies = await Dummy.find({tags:{$regex: searchVal, $options: "$i"}},{name:1,company:1})
+            res.status(200).json({message: dummies})
+        }
+        else res.status(200).json({message: []})
+    } catch(e) {
+        res.status(404).json({message: 'Unable to fetch products'})
+    }
+})
+
 module.exports = router
