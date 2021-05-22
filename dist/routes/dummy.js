@@ -67,4 +67,19 @@ router.delete('/deleteDummy/:id', auth, (req, res) => __awaiter(void 0, void 0, 
     else
         product.remove().then(() => res.status(200).json({ ok: true, message: 'Dummy Product Deleted' }));
 }));
+// Searches Dummy Products by Tags
+router.post('/search', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const searchVal = req.body.val;
+    try {
+        if (searchVal) {
+            const dummies = yield Dummy.find({ tags: { $regex: searchVal, $options: "$i" } }, { name: 1, company: 1 });
+            res.status(200).json({ message: dummies });
+        }
+        else
+            res.status(200).json({ message: [] });
+    }
+    catch (e) {
+        res.status(404).json({ message: 'Unable to fetch products' });
+    }
+}));
 module.exports = router;

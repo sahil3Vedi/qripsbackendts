@@ -19,6 +19,14 @@ const DummySchema = mongoose.Schema({
         type: Number,
         required: true
     },
+    unit_capacity: {
+        type: Number,
+        required: true
+    },
+    is_liquid: {
+        type: Boolean,
+        required: true
+    },
     description: {
         type: String,
         required: true
