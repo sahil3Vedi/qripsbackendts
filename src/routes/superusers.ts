@@ -57,7 +57,7 @@ router.post('/login',async(req: Request,res: Response) => {
         const superuserFound = await Superuser.findOne({username})
         if (!superuserFound) return res.status(404).json({message: 'Superuser does not exist'})
         // Validate Password
-        const isMatch = bcrypt.compare(password, superuserFound.password)
+        const isMatch = await bcrypt.compare(password, superuserFound.password)
         if (!isMatch) return res.status(403).json({message: 'Password is incorrect'})
         // Sign Token
         const token = await jwt.sign({id: superuserFound.id},process.env.JWT_SECRET,{expiresIn: 3600},)

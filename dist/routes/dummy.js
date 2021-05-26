@@ -44,8 +44,8 @@ router.post('/submit', auth, (req, res) => __awaiter(void 0, void 0, void 0, fun
     if (!superuserFound)
         return res.status(404).json({ message: 'Token is not valid (sneak)' });
     // Creating new Dummy Product
-    const { color, company, description, imgs, name, tags, unit_price, unit_weight } = req.body;
-    const newDummy = new Dummy({ color, company, description, imgs, name, tags, unit_price, unit_weight });
+    const { color, company, description, imgs, name, tags, unit_price, unit_weight, is_liquid, unit_capacity } = req.body;
+    const newDummy = new Dummy({ color, company, description, imgs, name, tags, unit_price, unit_weight, is_liquid, unit_capacity });
     try {
         const savedDummy = yield newDummy.save();
         res.status(200).json({ ok: true, message: 'Dummy Product Added' });
